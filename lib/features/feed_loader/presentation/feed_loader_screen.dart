@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class FeedLoaderScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class FeedLoaderScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {},
           child: const Text('Отправить фид'),
-          
+
         ),
       ),
     );
