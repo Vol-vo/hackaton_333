@@ -8,7 +8,6 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return FeedLoaderScreen();
     return MultiBlocProvider(
       providers: [
         BlocProvider<FeedLoaderBloc>(
