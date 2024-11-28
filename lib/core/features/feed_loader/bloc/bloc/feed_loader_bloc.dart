@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:hackaton_333/core/data/dio.dart';
@@ -16,8 +17,7 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
   }
 
   void onPickFileAndSendFeedEvent(event, emit) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-    );
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result == null) {
       return;
@@ -27,24 +27,27 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       result.files.single.path!,
     );
 
-  FormData formData = FormData.fromMap({
-    "file" : await MultipartFile.fromFile(file.path)
-  });
-
+    FormData formData =
+        FormData.fromMap({"file": await MultipartFile.fromFile(file.path)});
 
     final response = await dio.post('feeds', data: formData);
     print(response.toString());
-    final workId = response.data['workId'] ;
+    final workId = response.data['workId'];
 
     Map<String, dynamic> responsee;
+    bool isReady = false;
 
-    while(true){
-      responsee = await dio.get('feeds', queryParameters: {'workId' : workId}) as Map<String, dynamic>;
-      if (responsee['isReady'] == true) break;
-       else await Duration(seconds: 2);
+    while (isReady == false) {
+      final responsee = await dio.get(
+        'feeds',
+        queryParameters: {'workId': workId},
+      );
+      if (responsee.data['isReady'] == true) {
+        debugPrint(responsee.data.toString());
+        isReady = true;
+      } else {
+        await const Duration(seconds: 2);
+      }
     }
-
-    print(responsee);
-
   }
 }
