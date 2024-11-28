@@ -1,8 +1,8 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:hackaton_333/features/feed_loader/presentation/feed_loader_screen.dart';
 
 
-@RoutePage()
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -14,6 +14,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const FeedLoaderScreen();
   }
 }
