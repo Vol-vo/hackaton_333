@@ -8,17 +8,20 @@ class FeedLoaderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Закгрузчик фидов',
+          'Загрузчик фидов',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
         backgroundColor: Colors.blue,
       ),
+      backgroundColor: Color(0xFF121240),
       body: Center(
         child: ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange,
+          ),
           child: const Text(
             'Отправить фид',
             style: TextStyle(
