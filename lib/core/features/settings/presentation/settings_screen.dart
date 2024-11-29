@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
 import 'package:hackaton_333/core/styles/color.dart';
 
-import '../../widgets/default_app_bar.dart';
 
 const services = ['Yandex', 'Ozon'];
 
