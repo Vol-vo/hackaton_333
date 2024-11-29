@@ -8,8 +8,16 @@ class FeedRepository {
 
   ApiFeed service;
 
-  Future<LoadFeedResponse> loadFeed(File file) async {
-    return await service.loadFeed(file);
+  Future<LoadFeedResponse> loadFeed({
+    required File file,
+    required String uploader,
+    required String uploaderAuth,
+  }) async {
+    return await service.loadFeed(
+      file,
+      uploader,
+      uploaderAuth,
+    );
   }
 
   Future<CurrentValidatorErrors> getErrors(String workId) async {

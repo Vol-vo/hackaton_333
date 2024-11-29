@@ -24,9 +24,16 @@ class _ApiFeed implements ApiFeed {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<LoadFeedResponse> loadFeed(File file) async {
+  Future<LoadFeedResponse> loadFeed(
+    File file,
+    String uploader,
+    String uploaderAuth,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'uploader': uploader,
+      r'uploaderAuth': uploaderAuth,
+    };
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.add(MapEntry(

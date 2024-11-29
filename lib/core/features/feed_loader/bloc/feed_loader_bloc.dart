@@ -29,10 +29,14 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       result.files.single.path!,
     );
 
-    final loadFeedresponse = await repository.loadFeed(file);
+    final loadFeedresponse = await repository.loadFeed(
+      file: file,
+      uploader: 'yandex',
+      uploaderAuth: 'aboba',
+    );
 
     await Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 5),
     );
 
     final getFeedResponse =
