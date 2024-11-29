@@ -48,6 +48,52 @@ class FeedLoaderTab extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HistoryChangeFeedScreen]
+class HistoryChangeFeedRoute extends PageRouteInfo<HistoryChangeFeedRouteArgs> {
+  HistoryChangeFeedRoute({
+    Key? key,
+    required List<CurrentValidatorError> errors,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HistoryChangeFeedRoute.name,
+          args: HistoryChangeFeedRouteArgs(
+            key: key,
+            errors: errors,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HistoryChangeFeedRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<HistoryChangeFeedRouteArgs>();
+      return HistoryChangeFeedScreen(
+        key: args.key,
+        errors: args.errors,
+      );
+    },
+  );
+}
+
+class HistoryChangeFeedRouteArgs {
+  const HistoryChangeFeedRouteArgs({
+    this.key,
+    required this.errors,
+  });
+
+  final Key? key;
+
+  final List<CurrentValidatorError> errors;
+
+  @override
+  String toString() {
+    return 'HistoryChangeFeedRouteArgs{key: $key, errors: $errors}';
+  }
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
