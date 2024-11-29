@@ -17,6 +17,7 @@ class FeedLoaderScreen extends StatefulWidget {
 }
 
 List<bool>? choises;
+List<bool>? openedErrors;
 
 class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
   @override
@@ -65,6 +66,12 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                           (index) => true,
                         );
 
+                    openedErrors = openedErrors ??
+                        List.generate(
+                          state.errors!.currentValidatorErrors!.length,
+                          (index) => false,
+                        );
+
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -75,41 +82,108 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                       margin: const EdgeInsets.all(8),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Row(
+                        child: Column(
                           children: [
-                            const SizedBox(
-                              width: 8,
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 215,
+                                  child: Text(
+                                    "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
+                                    style: TextStyle(
+                                      color: UIColors.contentPrimary,
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        OutlinedButton.icon(
+                                          onPressed: () =>
+                                              _onButtonPressed(index, false),
+                                          style: choises![index]
+                                              ? UIBoxStyles
+                                                  .declineButtonDeactive
+                                              : UIBoxStyles.declineButtonActive,
+                                          label: const Icon(Icons.close),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        OutlinedButton.icon(
+                                          onPressed: () =>
+                                              _onButtonPressed(index, true),
+                                          style: choises![index]
+                                              ? UIBoxStyles.acceptButtonActive
+                                              : UIBoxStyles
+                                                  .acceptButtonDeactive,
+                                          label: const Icon(Icons.check),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          openedErrors![index] =
+                                              !openedErrors![index];
+                                        });
+                                      },
+                                      style: UIBoxStyles.moreButton,
+                                      child: const Text(
+                                        'Подробнее',
+                                        style: TextStyle(
+                                          color: UIColors.accent,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width - 215,
-                              child: Text(
-                                "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
-                                style: TextStyle(
-                                  color: UIColors.contentPrimary,
-                                  overflow: TextOverflow.fade,
+                            Visibility(
+                              visible: openedErrors![index],
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    for (var str in state
+                                        .errors!
+                                        .currentValidatorErrors![index]
+                                        .lines!
+                                        .invalidLines!)
+                                      Container(
+                                        child: Text(
+                                          str.line!,
+                                          style: TextStyle(
+                                              color: UIColors.contentSecondary),
+                                        ),
+                                        color: UIColors.decline,
+                                      ),
+                                    for (var str in state
+                                        .errors!
+                                        .currentValidatorErrors![index]
+                                        .lines!
+                                        .correctLines!)
+                                      Container(
+                                        color: UIColors.accept,
+                                        child: Text(
+                                          str.line!,
+                                          style: TextStyle(
+                                              color: UIColors.contentSecondary),
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            OutlinedButton.icon(
-                              onPressed: () => _onButtonPressed(index, false),
-                              style: choises![index]
-                                  ? UIBoxStyles.declineButtonDeactive
-                                  : UIBoxStyles.declineButtonActive,
-                              label: const Icon(Icons.close),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            OutlinedButton.icon(
-                              onPressed: () => _onButtonPressed(index, true),
-                              style: choises![index]
-                                  ? UIBoxStyles.acceptButtonActive
-                                  : UIBoxStyles.acceptButtonDeactive,
-                              label: const Icon(Icons.check),
-                            ),
-                            const SizedBox(
-                              width: 8,
                             ),
                           ],
                         ),

@@ -13,6 +13,7 @@ class LinesMapper extends ClassMapperBase<Lines> {
   static LinesMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = LinesMapper._());
+      LineMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -20,11 +21,11 @@ class LinesMapper extends ClassMapperBase<Lines> {
   @override
   final String id = 'Lines';
 
-  static List<String>? _$invalidLines(Lines v) => v.invalidLines;
-  static const Field<Lines, List<String>> _f$invalidLines =
+  static List<Line>? _$invalidLines(Lines v) => v.invalidLines;
+  static const Field<Lines, List<Line>> _f$invalidLines =
       Field('invalidLines', _$invalidLines, opt: true);
-  static List<String>? _$correctLines(Lines v) => v.correctLines;
-  static const Field<Lines, List<String>> _f$correctLines =
+  static List<Line>? _$correctLines(Lines v) => v.correctLines;
+  static const Field<Lines, List<Line>> _f$correctLines =
       Field('correctLines', _$correctLines, opt: true);
 
   @override
@@ -85,11 +86,9 @@ extension LinesValueCopy<$R, $Out> on ObjectCopyWith<$R, Lines, $Out> {
 
 abstract class LinesCopyWith<$R, $In extends Lines, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get invalidLines;
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get correctLines;
-  $R call({List<String>? invalidLines, List<String>? correctLines});
+  ListCopyWith<$R, Line, LineCopyWith<$R, Line, Line>>? get invalidLines;
+  ListCopyWith<$R, Line, LineCopyWith<$R, Line, Line>>? get correctLines;
+  $R call({List<Line>? invalidLines, List<Line>? correctLines});
   LinesCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -100,19 +99,15 @@ class _LinesCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Lines, $Out>
   @override
   late final ClassMapperBase<Lines> $mapper = LinesMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get invalidLines => $value.invalidLines != null
-          ? ListCopyWith(
-              $value.invalidLines!,
-              (v, t) => ObjectCopyWith(v, $identity, t),
+  ListCopyWith<$R, Line, LineCopyWith<$R, Line, Line>>? get invalidLines =>
+      $value.invalidLines != null
+          ? ListCopyWith($value.invalidLines!, (v, t) => v.copyWith.$chain(t),
               (v) => call(invalidLines: v))
           : null;
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get correctLines => $value.correctLines != null
-          ? ListCopyWith(
-              $value.correctLines!,
-              (v, t) => ObjectCopyWith(v, $identity, t),
+  ListCopyWith<$R, Line, LineCopyWith<$R, Line, Line>>? get correctLines =>
+      $value.correctLines != null
+          ? ListCopyWith($value.correctLines!, (v, t) => v.copyWith.$chain(t),
               (v) => call(correctLines: v))
           : null;
   @override
