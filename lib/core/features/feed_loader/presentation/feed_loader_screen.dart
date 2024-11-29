@@ -41,14 +41,25 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
           if (state.errors == null) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: DefaultPushButton(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  DefaultPushButton(
                 onTap: () {
-                  final feedLoaderBloc = context.read<FeedLoaderBloc>();
-                  feedLoaderBloc.add(
-                    PickFileAndSendFeedEvent(),
-                  );
+                  context.router.pushNamed('/feed-loader-tab/server-input/');
                 },
-                buttonText: 'Отправить фид',
+                buttonText: 'Отправить фид c сервера',
+              ),
+                  DefaultPushButton(
+                    onTap: () {
+                      final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                      feedLoaderBloc.add(
+                        PickFileAndSendFeedEvent(),
+                      );
+                    },
+                    buttonText: 'Отправить фид с устройства',
+                  ),
+                ],
               ),
             );
           }

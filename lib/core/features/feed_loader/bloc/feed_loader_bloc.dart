@@ -64,4 +64,6 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       );
     }
   }
+
+  
 }

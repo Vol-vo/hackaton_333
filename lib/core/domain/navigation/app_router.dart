@@ -4,6 +4,8 @@ import 'package:hackaton_333/core/features/home/presentation/home_screen.dart';
 import 'package:hackaton_333/core/features/saved_feeds/presentation/saved_feeds_screen.dart';
 import 'package:hackaton_333/core/features/settings/presentation/settings_screen.dart';
 
+import '../../features/server_input/presentation/server_input_screen.dart';
+
 part 'app_router.gr.dart';
 
 @AutoRouterConfig()
@@ -21,11 +23,17 @@ class AppRouter extends RootStackRouter {
               page: FeedLoaderTab.page,
               children: [
                 AutoRoute(
-                  path: 'feed-loader',
-                  initial: true,
-                  page: FeedLoaderRoute.page,
+                    path: 'feed-loader',
+                    initial: true,
+                    page: FeedLoaderRoute.page,
                 ),
+                 AutoRoute(
+                        path: 'server-input',
+                        initial: false,
+                        page: ServerInputRoute.page,
+                      ),
               ],
+              
             ),
             AutoRoute(
               path: 'saved-feeds-tab',

@@ -105,6 +105,25 @@ class SavedFeedsTab extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ServerInputScreen]
+class ServerInputRoute extends PageRouteInfo<void> {
+  const ServerInputRoute({List<PageRouteInfo>? children})
+      : super(
+          ServerInputRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ServerInputRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ServerInputScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [SettingsScreen]
 class SettingsRoute extends PageRouteInfo<void> {
   const SettingsRoute({List<PageRouteInfo>? children})
