@@ -93,7 +93,7 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                 onTap: () {
                   final feedLoaderBloc = context.read<FeedLoaderBloc>();
                   feedLoaderBloc.add(
-                    PickFileAndSendFeedEvent(),
+                    PushChangesFeedEvent(choises: choises!, errors: state.errors!),
                   );
                 },
                 buttonText: 'Отправить изменения',
