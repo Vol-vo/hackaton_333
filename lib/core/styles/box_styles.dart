@@ -33,4 +33,13 @@ class UIBoxStyles {
       color: UIColors.accept,
     ),
   );
+
+  static final moreButton = OutlinedButton.styleFrom(
+    iconColor: UIColors.contentPrimary,
+    backgroundColor: UIColors.background,
+    side: const BorderSide(
+      width: 2,
+      color: UIColors.accent,
+    ),
+  );
 }
