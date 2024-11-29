@@ -4,7 +4,7 @@ import 'package:hackaton_333/core/styles/color.dart';
 
 import '../../widgets/default_app_bar.dart';
 
-final services = ['Yandex', 'Ozon'];
+const services = ['Yandex', 'Ozon'];
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -30,14 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView.builder(
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () {
-              if (currentService != index) {
-                setState(() {
-                  currentService = index;
-                });
-                print(index.toString());
-              }
-            },
+            onTap: () => _updateService(index),
             child: Container(
               height: 70,
               decoration: BoxDecoration(
@@ -63,7 +56,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Checkbox(
                     activeColor: UIColors.accent,
                     value: currentService == index,
-                    onChanged: (_) {},
+                    onChanged: (_) {
+                      _updateService(index);
+                    },
                   ),
                 ],
               ),
@@ -73,5 +68,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         itemCount: services.length,
       ),
     );
+  }
+
+  void _updateService(int index) {
+    if (currentService != index) {
+      setState(() {
+        currentService = index;
+      });
+    }
   }
 }
