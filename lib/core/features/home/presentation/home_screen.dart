@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
       routes: const [
         FeedLoaderTab(),
         SavedFeedsTab(),
+        SettingsTab(),
       ],
       transitionBuilder: (context, child, animation) => FadeTransition(
         opacity: animation,
@@ -44,6 +45,12 @@ class HomeScreen extends StatelessWidget {
                 label: "Сохраненные фиды",
                 icon: Icon(
                   Icons.save,
+                ),
+              ),
+              BottomNavigationBarItem(
+                label: "Настройки",
+                icon: Icon(
+                  Icons.settings,
                 ),
               ),
             ],

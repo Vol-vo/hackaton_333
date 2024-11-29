@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_state.dart';
 import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
+import 'package:hackaton_333/core/features/widgets/default_push_button.dart';
 import 'package:hackaton_333/core/styles/color.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -37,28 +38,14 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
           if (state.errors == null) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final feedLoaderBloc = context.read<FeedLoaderBloc>();
-                    feedLoaderBloc.add(
-                      PickFileAndSendFeedEvent(),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: UIColors.accent,
-                    fixedSize: Size.fromWidth(MediaQuery.of(context).size.width)
-                  ),
-                  child: const Text(
-                    'Отправить фид',
-                    style: TextStyle(
-                      color: UIColors.background,
-                      fontSize: 16,
-                      fontFamily: 'Manrope',
-                    ),
-                  ),
-                ),
+              child: DefaultPushButton(
+                onTap: () {
+                  final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                  feedLoaderBloc.add(
+                    PickFileAndSendFeedEvent(),
+                  );
+                },
+                buttonText: 'Отправить фид',
               ),
             );
           }
@@ -70,86 +57,69 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: UIColors.accent,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: UIColors.accent,
+                        ),
                       ),
-                    ),
-                    margin: const EdgeInsets.all(8),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width - 215,
-                            child: Text(
-                              "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
-                              style: TextStyle(
-                                color: UIColors.contentPrimary,
-                                overflow: TextOverflow.fade,
+                      margin: const EdgeInsets.all(8),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 215,
+                              child: Text(
+                                "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
+                                style: TextStyle(
+                                  color: UIColors.contentPrimary,
+                                  overflow: TextOverflow.fade,
+                                ),
                               ),
                             ),
-                          ),
-                          const Spacer(),
-                          ElevatedButton.icon(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              iconColor: UIColors.background,
-                              backgroundColor: UIColors.decline,
+                            const Spacer(),
+                            ElevatedButton.icon(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                iconColor: UIColors.background,
+                                backgroundColor: UIColors.decline,
+                              ),
+                              label: const Icon(Icons.close),
                             ),
-                            label: const Icon(Icons.close),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              iconColor: UIColors.background,
-                              backgroundColor: UIColors.accept,
+                            const SizedBox(
+                              width: 8,
                             ),
-                            label: const Icon(Icons.check),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                        ],
+                            ElevatedButton.icon(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                iconColor: UIColors.background,
+                                backgroundColor: UIColors.accept,
+                              ),
+                              label: const Icon(Icons.check),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
+                    );
                   },
                   itemCount: state.errors!.currentValidatorErrors!.length,
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: ElevatedButton(
-                  onPressed: () {
-                    final feedLoaderBloc = context.read<FeedLoaderBloc>();
-                    feedLoaderBloc.add(
-                      PickFileAndSendFeedEvent(),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: UIColors.accent,
-                    fixedSize: Size.fromWidth(MediaQuery.of(context).size.width)
-                  ),
-                  child: const Text(
-                    'Отправить изменения',
-                    style: TextStyle(
-                      color: UIColors.background,
-                      fontSize: 16,
-                      fontFamily: 'Manrope',
-                    ),
-                  ),
-                ),
-                ),
+              DefaultPushButton(
+                onTap: () {
+                  final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                  feedLoaderBloc.add(
+                    PickFileAndSendFeedEvent(),
+                  );
+                },
+                buttonText: 'Отправить изменения',
               ),
             ],
           );

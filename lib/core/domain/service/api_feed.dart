@@ -11,7 +11,7 @@ abstract class ApiFeed{
   factory ApiFeed(Dio dio, {String baseUrl}) = _ApiFeed;
 
   @POST("feeds")
-  Future<LoadFeedResponse> loadFeed(@Part() File file);
+  Future<LoadFeedResponse> loadFeed(@Part() File file, );
 
   @GET("feeds")
   Future<CurrentValidatorErrors> getErrors(@Query('workId') String workId);

@@ -31,7 +31,9 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
 
     final loadFeedresponse = await repository.loadFeed(file);
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
 
     final getFeedResponse =
         await repository.getErrors(loadFeedresponse.workId!);
