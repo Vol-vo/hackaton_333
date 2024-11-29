@@ -68,70 +68,87 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: ListView.builder(
-                  itemBuilder: (context, index) => Container(
+                  itemBuilder: (context, index) {
+                    return Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: UIColors.accent,
                       ),
                     ),
-                    height: 70,
                     margin: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          'ТЕКСТ ОШИБКИ',
-                          style: TextStyle(
-                            color: UIColors.contentPrimary,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 8,
                           ),
-                        ),
-                        const Spacer(),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            iconColor: UIColors.background,
-                            backgroundColor: UIColors.decline,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 215,
+                            child: Text(
+                              "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
+                              style: TextStyle(
+                                color: UIColors.contentPrimary,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
                           ),
-                          label: const Icon(Icons.error),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            iconColor: UIColors.background,
-                            backgroundColor: UIColors.accept,
+                          const Spacer(),
+                          ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              iconColor: UIColors.background,
+                              backgroundColor: UIColors.decline,
+                            ),
+                            label: const Icon(Icons.close),
                           ),
-                          label: const Icon(Icons.check),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              iconColor: UIColors.background,
+                              backgroundColor: UIColors.accept,
+                            ),
+                            label: const Icon(Icons.check),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  itemCount: 10,
+                  );
+                  },
+                  itemCount: state.errors!.currentValidatorErrors!.length,
                 ),
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: const EdgeInsets.all(32.0),
-                  child: IconButton(
-                    iconSize: 40,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.library_add_check,
+                  child: ElevatedButton(
+                  onPressed: () {
+                    final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                    feedLoaderBloc.add(
+                      PickFileAndSendFeedEvent(),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: UIColors.accent,
+                    fixedSize: Size.fromWidth(MediaQuery.of(context).size.width)
+                  ),
+                  child: const Text(
+                    'Отправить изменения',
+                    style: TextStyle(
                       color: UIColors.background,
-                    ),
-                    style: IconButton.styleFrom(
-                      backgroundColor: UIColors.accent,
+                      fontSize: 16,
+                      fontFamily: 'Manrope',
                     ),
                   ),
+                ),
                 ),
               ),
             ],

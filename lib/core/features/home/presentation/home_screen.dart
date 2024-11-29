@@ -36,7 +36,6 @@ class HomeScreen extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(
                 label: "Загрузить фид",
-                
                 icon: Icon(
                   Icons.download,
                 ),

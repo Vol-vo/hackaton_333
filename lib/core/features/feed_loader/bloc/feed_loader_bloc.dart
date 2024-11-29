@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -30,12 +29,9 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       result.files.single.path!,
     );
 
-    // FormData formData = FormData.fromMap(
-    //   {"file": await MultipartFile.fromFile(file.path)},
-    // );
-
-
     final loadFeedresponse = await repository.loadFeed(file);
+
+    await Future.delayed(Duration(seconds: 2));
 
     final getFeedResponse =
         await repository.getErrors(loadFeedresponse.workId!);
@@ -45,25 +41,5 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
         errors: getFeedResponse,
       ),
     );
-
-    // final response = await dio.post('feeds', data: formData);
-    // print(response.toString());
-    // final workId = response.data['workId'];
-
-    // Map<String, dynamic> responsee;
-    // bool isReady = false;
-
-    // while (isReady == false) {
-    //   final responsee = await dio.get(
-    //     'feeds',
-    //     queryParameters: {'workId': workId},
-    //   );
-    //   if (responsee.data['isReady'] == true) {
-    //     debugPrint(responsee.data.toString());
-    //     isReady = true;
-    //   } else {
-    //     await const Duration(seconds: 2);
-    //   }
-    // }
   }
 }

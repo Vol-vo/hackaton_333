@@ -24,19 +24,19 @@ class CurrentValidatorErrorMapper
   static String? _$message(CurrentValidatorError v) => v.message;
   static const Field<CurrentValidatorError, String> _f$message =
       Field('message', _$message, opt: true);
-  static String? _$field(CurrentValidatorError v) => v.field;
-  static const Field<CurrentValidatorError, String> _f$field =
-      Field('field', _$field, opt: true);
+  static String? _$availableFix(CurrentValidatorError v) => v.availableFix;
+  static const Field<CurrentValidatorError, String> _f$availableFix =
+      Field('availableFix', _$availableFix, opt: true);
 
   @override
   final MappableFields<CurrentValidatorError> fields = const {
     #message: _f$message,
-    #field: _f$field,
+    #availableFix: _f$availableFix,
   };
 
   static CurrentValidatorError _instantiate(DecodingData data) {
     return CurrentValidatorError(
-        message: data.dec(_f$message), field: data.dec(_f$field));
+        message: data.dec(_f$message), availableFix: data.dec(_f$availableFix));
   }
 
   @override
@@ -96,7 +96,7 @@ abstract class CurrentValidatorErrorCopyWith<
     $R,
     $In extends CurrentValidatorError,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? message, String? field});
+  $R call({String? message, String? availableFix});
   CurrentValidatorErrorCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -110,15 +110,15 @@ class _CurrentValidatorErrorCopyWithImpl<$R, $Out>
   late final ClassMapperBase<CurrentValidatorError> $mapper =
       CurrentValidatorErrorMapper.ensureInitialized();
   @override
-  $R call({Object? message = $none, Object? field = $none}) =>
+  $R call({Object? message = $none, Object? availableFix = $none}) =>
       $apply(FieldCopyWithData({
         if (message != $none) #message: message,
-        if (field != $none) #field: field
+        if (availableFix != $none) #availableFix: availableFix
       }));
   @override
   CurrentValidatorError $make(CopyWithData data) => CurrentValidatorError(
       message: data.get(#message, or: $value.message),
-      field: data.get(#field, or: $value.field));
+      availableFix: data.get(#availableFix, or: $value.availableFix));
 
   @override
   CurrentValidatorErrorCopyWith<$R2, CurrentValidatorError, $Out2>
