@@ -4,6 +4,7 @@ import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dar
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_state.dart';
 import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
 import 'package:hackaton_333/core/features/widgets/default_push_button.dart';
+import 'package:hackaton_333/core/styles/box_styles.dart';
 import 'package:hackaton_333/core/styles/color.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -14,6 +15,8 @@ class FeedLoaderScreen extends StatefulWidget {
   @override
   State<FeedLoaderScreen> createState() => _FeedLoaderScreenState();
 }
+
+List<bool>? choises;
 
 class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
   @override
@@ -56,6 +59,12 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: ListView.builder(
                   itemBuilder: (context, index) {
+                    choises = choises ??
+                        List.generate(
+                          state.errors!.currentValidatorErrors!.length,
+                          (index) => true,
+                        );
+
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -82,23 +91,21 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                               ),
                             ),
                             const Spacer(),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                iconColor: UIColors.background,
-                                backgroundColor: UIColors.decline,
-                              ),
+                            OutlinedButton.icon(
+                              onPressed: () => _onButtonPressed(index, false),
+                              style: choises![index]
+                                  ? UIBoxStyles.declineButtonDeactive
+                                  : UIBoxStyles.declineButtonActive,
                               label: const Icon(Icons.close),
                             ),
                             const SizedBox(
                               width: 8,
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                iconColor: UIColors.background,
-                                backgroundColor: UIColors.accept,
-                              ),
+                            OutlinedButton.icon(
+                              onPressed: () => _onButtonPressed(index, true),
+                              style: choises![index]
+                                  ? UIBoxStyles.acceptButtonActive
+                                  : UIBoxStyles.acceptButtonDeactive,
                               label: const Icon(Icons.check),
                             ),
                             const SizedBox(
@@ -126,5 +133,17 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
         },
       ),
     );
+  }
+
+  void _onButtonPressed(int index, bool buttonIsAccept) {
+    if (buttonIsAccept && !choises![index]) {
+      setState(() {
+        choises![index] = true;
+      });
+    } else if (!buttonIsAccept && choises![index]) {
+      setState(() {
+        choises![index] = false;
+      });
+    }
   }
 }

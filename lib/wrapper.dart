@@ -6,7 +6,11 @@ import 'package:hackaton_333/core/domain/service/api_feed.dart';
 import 'package:hackaton_333/core/domain/service/feed_repository.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dart';
 
-final _dio = Dio();
+final _dio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(minutes: 20),
+  ),
+);
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});

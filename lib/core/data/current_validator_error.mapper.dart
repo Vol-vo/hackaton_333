@@ -14,6 +14,9 @@ class CurrentValidatorErrorMapper
   static CurrentValidatorErrorMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = CurrentValidatorErrorMapper._());
+      TagErrorMapper.ensureInitialized();
+      ValueErrorMapper.ensureInitialized();
+      LinesMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -27,16 +30,37 @@ class CurrentValidatorErrorMapper
   static String? _$availableFix(CurrentValidatorError v) => v.availableFix;
   static const Field<CurrentValidatorError, String> _f$availableFix =
       Field('availableFix', _$availableFix, opt: true);
+  static String? _$errorId(CurrentValidatorError v) => v.errorId;
+  static const Field<CurrentValidatorError, String> _f$errorId =
+      Field('errorId', _$errorId, opt: true);
+  static TagError? _$tagError(CurrentValidatorError v) => v.tagError;
+  static const Field<CurrentValidatorError, TagError> _f$tagError =
+      Field('tagError', _$tagError, opt: true);
+  static ValueError? _$valueError(CurrentValidatorError v) => v.valueError;
+  static const Field<CurrentValidatorError, ValueError> _f$valueError =
+      Field('valueError', _$valueError, opt: true);
+  static Lines? _$lines(CurrentValidatorError v) => v.lines;
+  static const Field<CurrentValidatorError, Lines> _f$lines =
+      Field('lines', _$lines, opt: true);
 
   @override
   final MappableFields<CurrentValidatorError> fields = const {
     #message: _f$message,
     #availableFix: _f$availableFix,
+    #errorId: _f$errorId,
+    #tagError: _f$tagError,
+    #valueError: _f$valueError,
+    #lines: _f$lines,
   };
 
   static CurrentValidatorError _instantiate(DecodingData data) {
     return CurrentValidatorError(
-        message: data.dec(_f$message), availableFix: data.dec(_f$availableFix));
+        message: data.dec(_f$message),
+        availableFix: data.dec(_f$availableFix),
+        errorId: data.dec(_f$errorId),
+        tagError: data.dec(_f$tagError),
+        valueError: data.dec(_f$valueError),
+        lines: data.dec(_f$lines));
   }
 
   @override
@@ -96,7 +120,16 @@ abstract class CurrentValidatorErrorCopyWith<
     $R,
     $In extends CurrentValidatorError,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? message, String? availableFix});
+  TagErrorCopyWith<$R, TagError, TagError>? get tagError;
+  ValueErrorCopyWith<$R, ValueError, ValueError>? get valueError;
+  LinesCopyWith<$R, Lines, Lines>? get lines;
+  $R call(
+      {String? message,
+      String? availableFix,
+      String? errorId,
+      TagError? tagError,
+      ValueError? valueError,
+      Lines? lines});
   CurrentValidatorErrorCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -110,15 +143,38 @@ class _CurrentValidatorErrorCopyWithImpl<$R, $Out>
   late final ClassMapperBase<CurrentValidatorError> $mapper =
       CurrentValidatorErrorMapper.ensureInitialized();
   @override
-  $R call({Object? message = $none, Object? availableFix = $none}) =>
+  TagErrorCopyWith<$R, TagError, TagError>? get tagError =>
+      $value.tagError?.copyWith.$chain((v) => call(tagError: v));
+  @override
+  ValueErrorCopyWith<$R, ValueError, ValueError>? get valueError =>
+      $value.valueError?.copyWith.$chain((v) => call(valueError: v));
+  @override
+  LinesCopyWith<$R, Lines, Lines>? get lines =>
+      $value.lines?.copyWith.$chain((v) => call(lines: v));
+  @override
+  $R call(
+          {Object? message = $none,
+          Object? availableFix = $none,
+          Object? errorId = $none,
+          Object? tagError = $none,
+          Object? valueError = $none,
+          Object? lines = $none}) =>
       $apply(FieldCopyWithData({
         if (message != $none) #message: message,
-        if (availableFix != $none) #availableFix: availableFix
+        if (availableFix != $none) #availableFix: availableFix,
+        if (errorId != $none) #errorId: errorId,
+        if (tagError != $none) #tagError: tagError,
+        if (valueError != $none) #valueError: valueError,
+        if (lines != $none) #lines: lines
       }));
   @override
   CurrentValidatorError $make(CopyWithData data) => CurrentValidatorError(
       message: data.get(#message, or: $value.message),
-      availableFix: data.get(#availableFix, or: $value.availableFix));
+      availableFix: data.get(#availableFix, or: $value.availableFix),
+      errorId: data.get(#errorId, or: $value.errorId),
+      tagError: data.get(#tagError, or: $value.tagError),
+      valueError: data.get(#valueError, or: $value.valueError),
+      lines: data.get(#lines, or: $value.lines));
 
   @override
   CurrentValidatorErrorCopyWith<$R2, CurrentValidatorError, $Out2>

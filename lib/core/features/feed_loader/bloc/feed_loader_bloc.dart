@@ -39,13 +39,29 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       const Duration(seconds: 5),
     );
 
-    final getFeedResponse =
-        await repository.getErrors(loadFeedresponse.workId!);
+    bool isReady = false;
 
-    emit(
-      FeedLoaderState(
-        errors: getFeedResponse,
-      ),
-    );
+    while (!isReady) {
+      final getFeedResponse =
+          await repository.getErrors(loadFeedresponse.workId!);
+
+      isReady = getFeedResponse.isReady ?? false;
+
+      if (isReady) {
+        emit(
+          FeedLoaderState(
+            errors: getFeedResponse,
+          ),
+        );
+
+        return;
+      }
+
+      await Future.delayed(
+        const Duration(
+          seconds: 2,
+        ),
+      );
+    }
   }
 }
