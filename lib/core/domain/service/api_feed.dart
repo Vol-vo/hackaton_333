@@ -12,7 +12,7 @@ abstract class ApiFeed {
 
   @POST("feeds")
   Future<LoadFeedResponse> loadFeed(
-    @Part() File? file,
+    @Part() File file,
     @Query('uploader') String uploader,
     @Query('uploaderAuth') String uploaderAuth,
   );

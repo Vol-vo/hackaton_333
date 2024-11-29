@@ -46,11 +46,12 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   DefaultPushButton(
-                onTap: () {
-                  context.router.pushNamed('/feed-loader-tab/server-input/');
-                },
-                buttonText: 'Отправить фид c сервера',
-              ),
+                    onTap: () {
+                      context.router
+                          .pushNamed('/feed-loader-tab/server-input/');
+                    },
+                    buttonText: 'Отправить фид c сервера',
+                  ),
                   DefaultPushButton(
                     onTap: () {
                       final feedLoaderBloc = context.read<FeedLoaderBloc>();
@@ -83,123 +84,7 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                           (index) => false,
                         );
 
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: UIColors.accent,
-                        ),
-                      ),
-                      margin: const EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width - 215,
-                                  child: Text(
-                                    "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
-                                    style: TextStyle(
-                                      color: UIColors.contentPrimary,
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        OutlinedButton.icon(
-                                          onPressed: () =>
-                                              _onButtonPressed(index, false),
-                                          style: choises![index]
-                                              ? UIBoxStyles
-                                                  .declineButtonDeactive
-                                              : UIBoxStyles.declineButtonActive,
-                                          label: const Icon(Icons.close),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        OutlinedButton.icon(
-                                          onPressed: () =>
-                                              _onButtonPressed(index, true),
-                                          style: choises![index]
-                                              ? UIBoxStyles.acceptButtonActive
-                                              : UIBoxStyles
-                                                  .acceptButtonDeactive,
-                                          label: const Icon(Icons.check),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                      ],
-                                    ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          openedErrors![index] =
-                                              !openedErrors![index];
-                                        });
-                                      },
-                                      style: UIBoxStyles.moreButton,
-                                      child: const Text(
-                                        'Подробнее',
-                                        style: TextStyle(
-                                          color: UIColors.accent,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Visibility(
-                              visible: openedErrors![index],
-                              child: Container(
-                                child: Column(
-                                  children: [
-                                    for (var str in state
-                                        .errors!
-                                        .currentValidatorErrors![index]
-                                        .lines!
-                                        .invalidLines!)
-                                      Container(
-                                        child: Text(
-                                          str.line!,
-                                          style: TextStyle(
-                                              color: UIColors.contentSecondary),
-                                        ),
-                                        color: UIColors.decline,
-                                      ),
-                                    for (var str in state
-                                        .errors!
-                                        .currentValidatorErrors![index]
-                                        .lines!
-                                        .correctLines!)
-                                      Container(
-                                        color: UIColors.accept,
-                                        child: Text(
-                                          str.line!,
-                                          style: TextStyle(
-                                              color: UIColors.contentSecondary),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                    return _choiseErrorSolveElement(state, index);
                   },
                   itemCount: state.errors!.currentValidatorErrors!.length,
                 ),
@@ -216,6 +101,128 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _choiseErrorSolveElement(FeedLoaderState state, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: UIColors.accent,
+        ),
+      ),
+      margin: const EdgeInsets.all(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const SizedBox(
+                  width: 8,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 215,
+                  child: Text(
+                    "${state.errors!.currentValidatorErrors![index].message!} \n \n ${state.errors!.currentValidatorErrors![index].availableFix!}",
+                    style: TextStyle(
+                      color: UIColors.contentPrimary,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                _choiseButtons(index),
+              ],
+            ),
+            _errorInfoVisible(
+              state: state,
+              index: index,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _choiseButtons(
+    int index,
+  ) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            OutlinedButton.icon(
+              onPressed: () => _onButtonPressed(index, false),
+              style: choises![index]
+                  ? UIBoxStyles.declineButtonDeactive
+                  : UIBoxStyles.declineButtonActive,
+              label: const Icon(Icons.close),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            OutlinedButton.icon(
+              onPressed: () => _onButtonPressed(index, true),
+              style: choises![index]
+                  ? UIBoxStyles.acceptButtonActive
+                  : UIBoxStyles.acceptButtonDeactive,
+              label: const Icon(Icons.check),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+          ],
+        ),
+        OutlinedButton(
+          onPressed: () {
+            setState(() {
+              openedErrors![index] = !openedErrors![index];
+            });
+          },
+          style: UIBoxStyles.moreButton,
+          child: const Text(
+            'Подробнее',
+            style: TextStyle(
+              color: UIColors.accent,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _errorInfoVisible({
+    required FeedLoaderState state,
+    required int index,
+  }) {
+    return Visibility(
+      visible: openedErrors![index],
+      child: Column(
+        children: [
+          for (var str in state
+              .errors!.currentValidatorErrors![index].lines!.invalidLines!)
+            Container(
+              color: UIColors.decline,
+              child: Text(
+                str.line!,
+                style: const TextStyle(color: UIColors.contentSecondary),
+              ),
+            ),
+          for (var str in state
+              .errors!.currentValidatorErrors![index].lines!.correctLines!)
+            Container(
+              color: UIColors.accept,
+              child: Text(
+                str.line!,
+                style: const TextStyle(
+                  color: UIColors.contentSecondary,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
