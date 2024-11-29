@@ -16,7 +16,7 @@ class DefaultPushButton extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: onTap,
           style: ElevatedButton.styleFrom(
