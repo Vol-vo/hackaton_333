@@ -23,17 +23,11 @@ class AppRouter extends RootStackRouter {
               page: FeedLoaderTab.page,
               children: [
                 AutoRoute(
-                    path: 'feed-loader',
-                    initial: true,
-                    page: FeedLoaderRoute.page,
+                  path: 'feed-loader',
+                  initial: true,
+                  page: FeedLoaderRoute.page,
                 ),
-                 AutoRoute(
-                        path: 'server-input',
-                        initial: false,
-                        page: ServerInputRoute.page,
-                      ),
               ],
-              
             ),
             AutoRoute(
               path: 'saved-feeds-tab',
@@ -58,6 +52,11 @@ class AppRouter extends RootStackRouter {
               ],
             ),
           ],
+        ),
+        AutoRoute(
+          path: '/server-input',
+          initial: false,
+          page: ServerInputRoute.page,
         ),
       ];
 }

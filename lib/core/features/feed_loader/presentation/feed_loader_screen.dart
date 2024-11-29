@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackaton_333/core/domain/navigation/app_router.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_state.dart';
 import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
@@ -47,8 +48,7 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                 children: [
                   DefaultPushButton(
                     onTap: () {
-                      context.router
-                          .pushNamed('/feed-loader-tab/server-input/');
+                      context.router.push(const ServerInputRoute());
                     },
                     buttonText: 'Отправить фид c сервера',
                   ),

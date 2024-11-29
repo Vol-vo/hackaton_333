@@ -21,5 +21,5 @@ class CurrentValidatorError with CurrentValidatorErrorMappable {
     this.lines,
   });
 
-  static const fromJson = CurrentValidatorErrorMapper.fromMap;
+ static const fromJson = CurrentValidatorErrorMapper.fromMap;
 }

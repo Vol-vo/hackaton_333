@@ -5,9 +5,14 @@ import 'package:hackaton_333/core/features/widgets/default_push_button.dart';
 import 'package:hackaton_333/core/styles/color.dart';
 
 @RoutePage()
-class ServerInputScreen extends StatelessWidget {
+class ServerInputScreen extends StatefulWidget {
   const ServerInputScreen({super.key});
 
+  @override
+  State<ServerInputScreen> createState() => _ServerInputScreenState();
+}
+
+class _ServerInputScreenState extends State<ServerInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,22 +53,39 @@ class ServerInputScreen extends StatelessWidget {
                       disabledBorder: InputBorder.none,
                     ),
                     style: TextStyle(
-                        color: UIColors.contentPrimary,
-                        fontFamily: 'Manrope',
-                      ),
+                      color: UIColors.contentPrimary,
+                      fontFamily: 'Manrope',
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 16,
+            Row(
+              children: [
+                Checkbox(
+                  value: true,
+                  onChanged: (_) {},
+                  activeColor: UIColors.accent,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  'Сохранить адрес',
+                  style: TextStyle(
+                    fontFamily: 'Manrope',
+                    color: UIColors.contentPrimary,
+                  ),
+                ),
+              ],
             ),
             DefaultPushButton(
               onTap: () {
-                context.router.pushNamed('/feed-loader-tab');
+                context.router.maybePop();
               },
               buttonText: 'Загрузить фид с сервера',
             ),
+            
           ],
         ),
       ),
