@@ -17,7 +17,7 @@ class ServerInputScreen extends StatefulWidget {
 
 class _ServerInputScreenState extends State<ServerInputScreen> {
   late TextEditingController _controller;
-  bool? saveFeedUrl = true;
+  bool saveFeedUrl = true;
 
   @override
   void initState() {
@@ -77,8 +77,12 @@ class _ServerInputScreenState extends State<ServerInputScreen> {
             Row(
               children: [
                 Checkbox(
-                  value: true,
-                  onChanged: (_) {},
+                  value: saveFeedUrl,
+                  onChanged: (value) {
+                    setState(() {
+                      saveFeedUrl = value ?? true; 
+                    });
+                  },
                   activeColor: UIColors.accent,
                 ),
                 const SizedBox(
@@ -97,9 +101,13 @@ class _ServerInputScreenState extends State<ServerInputScreen> {
               onTap: () async {
                 context.router.maybePop();
 
-                if (_controller.text != '' && (saveFeedUrl ?? false)) {
+                if (_controller.text != '' && saveFeedUrl) {
                   final feedUrlBox = await Hive.openBox(HiveBoxes.feedUrlBox);
                   feedUrlBox.put(HiveKeys.feedUrl, _controller.text);
+                }
+                if (!saveFeedUrl) {
+                  final feedUrlBox = await Hive.openBox(HiveBoxes.feedUrlBox);
+                  feedUrlBox.put(HiveKeys.feedUrl, null);
                 }
               },
               buttonText: 'Загрузить фид с сервера',
