@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
 import 'package:hackaton_333/core/features/widgets/default_push_button.dart';
+import 'package:hackaton_333/core/resources/hive_boxes.dart';
+import 'package:hackaton_333/core/resources/hive_keys.dart';
 import 'package:hackaton_333/core/styles/color.dart';
+import 'package:hive/hive.dart';
 
 @RoutePage()
 class ServerInputScreen extends StatefulWidget {
@@ -13,6 +16,16 @@ class ServerInputScreen extends StatefulWidget {
 }
 
 class _ServerInputScreenState extends State<ServerInputScreen> {
+  late TextEditingController _controller;
+  bool? saveFeedUrl = true;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    putSavedUrl();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +53,7 @@ class _ServerInputScreenState extends State<ServerInputScreen> {
                 padding: const EdgeInsets.only(left: 8),
                 child: Center(
                   child: TextField(
+                    controller: _controller,
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
                         color: UIColors.contentPrimary.withOpacity(0.4),
@@ -80,15 +94,28 @@ class _ServerInputScreenState extends State<ServerInputScreen> {
               ],
             ),
             DefaultPushButton(
-              onTap: () {
+              onTap: () async {
                 context.router.maybePop();
+
+                if (_controller.text != '' && (saveFeedUrl ?? false)) {
+                  final feedUrlBox = await Hive.openBox(HiveBoxes.feedUrlBox);
+                  feedUrlBox.put(HiveKeys.feedUrl, _controller.text);
+                }
               },
               buttonText: 'Загрузить фид с сервера',
             ),
-            
           ],
         ),
       ),
     );
+  }
+
+  Future<void> putSavedUrl() async{
+    final feedUrlBox = await Hive.openBox(HiveBoxes.feedUrlBox);
+    final savedUrl = feedUrlBox.get(HiveKeys.feedUrl);
+
+    if (savedUrl != null) {
+      _controller.text = savedUrl;
+    }
   }
 }
