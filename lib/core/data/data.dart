@@ -4,4 +4,4 @@ export 'load_feed_response.dart';
 export 'tag_error.dart';
 export 'value_error.dart';
 export 'lines.dart';
-export 'saved_feeds_models.dart';
+export 'saved_feeds_model.dart';

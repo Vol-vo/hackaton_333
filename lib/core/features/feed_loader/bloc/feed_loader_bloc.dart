@@ -7,6 +7,7 @@ import 'package:hackaton_333/core/data/data.dart';
 import 'package:hackaton_333/core/domain/service/feed_repository.dart';
 
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_state.dart';
+import 'package:hackaton_333/core/resources/hive_boxes.dart';
 import 'package:hive/hive.dart';
 
 part 'feed_loader_event.dart';
@@ -16,7 +17,7 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
 
   FeedLoaderBloc({required this.repository}) : super(FeedLoaderState()) {
     on<PickFileAndSendFeedEvent>(onPickFileAndSendFeedEvent);
-
+    on<PushChangesFeedEvent>(onPushChangesFeedEvent);
   }
 
   void onPickFileAndSendFeedEvent(event, emit) async {
@@ -69,18 +70,24 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
   }
 
   onPushChangesFeedEvent(event, emit) async {
-    final box = await Hive.openBox('changesFeeds');
+    final box = await Hive.openBox(HiveBoxes.changesFeeds);
 
     final date = DateTime.now();
 
-    final savesFeedsModels = SavedFeedsModels(
+    final savedFeedsModels = SavedFeedsModel(
       errors: event.errors,
       isAccepted: event.choises,
       nameFiles: 'nameFiles', //TODO: Сделать с названиями файлов
       date: date,
     );
 
+    final savedFeedsModelsJson = savedFeedsModels.toJson();
 
+    box.add(savedFeedsModelsJson);
+
+    box.close();
+
+    //TODO: Сделать взаимодействие с сервером
 
   }
 
