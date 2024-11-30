@@ -136,11 +136,13 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
 
                   final feedLoaderBloc = context.read<FeedLoaderBloc>();
                   feedLoaderBloc.add(
-                    PushChangesFeedEvent(choises: choises!, errors: state.errors!),
-                    LoadUserAnswerEvent(
-                      userAnswer: userAnswer,
-                      workId: state.workId!,
-                    ),
+                    PushChangesFeedEvent(choises: choises!, errors: state.errors!)
+                  );
+                  feedLoaderBloc.add(
+                      LoadUserAnswerEvent(
+                        userAnswer: userAnswer,
+                        workId: state.workId!,
+                      ),
                   );
                 },
                 buttonText: 'Отправить изменения',

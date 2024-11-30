@@ -14,7 +14,7 @@ class _ApiFeed implements ApiFeed {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.0.10:8080/';
+    baseUrl ??= 'http://172.20.10.2:8080/';
   }
 
   final Dio _dio;
