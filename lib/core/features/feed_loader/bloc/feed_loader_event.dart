@@ -26,6 +26,12 @@ class LoadCurrencyFeedEvent  extends FeedLoaderEvent{
 
 }
 
+class LoadFeedFromServerEvent extends FeedLoaderEvent {
+  final String url;
+
+  LoadFeedFromServerEvent({required this.url});
+}
+
 class LoadCurrencyFeedOnServerEvent extends FeedLoaderEvent {}
 
 

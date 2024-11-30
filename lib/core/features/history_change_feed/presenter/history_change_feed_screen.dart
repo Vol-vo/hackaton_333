@@ -18,6 +18,7 @@ class HistoryChangeFeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(errors);
     return Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(54),
@@ -30,7 +31,7 @@ class HistoryChangeFeedScreen extends StatelessWidget {
           itemCount: errors.length,
           itemBuilder: (BuildContext context, int index) {
             if (!choises[index]) {
-              return Container();
+              return SizedBox.shrink();
             }
             return Padding(
               padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
@@ -52,7 +53,7 @@ class HistoryChangeFeedScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.9,
                         color: UIColors.decline,
                         child: Text(
-                          errors[index].lines!.invalidLines!.first.line!,
+                          errors[index].lines!.invalidLines == null ? '' : errors[index].lines!.invalidLines!.length > 0 ? errors[index].lines!.invalidLines!.first.line ?? '' : '',
                           style: style,
                         ),
                       ),
@@ -60,7 +61,7 @@ class HistoryChangeFeedScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.9,
                         color: UIColors.accent,
                         child: Text(
-                          errors[index].lines!.correctLines!.first.line!,
+                          errors[index].lines!.correctLines == null ? '' :errors[index].lines!.correctLines!.length > 0 ? errors[index].lines!.correctLines!.first.line ?? '' : '',
                           style: style,
                         ),
                       )

@@ -23,7 +23,9 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
     on<PickFileAndSendFeedEvent>(onPickFileAndSendFeedEvent);
     on<PushChangesFeedEvent>(onPushChangesFeedEvent);
     on<LoadUserAnswerEvent>(onLoadUserAnswerEvent);
-    on<LoadCurrencyFeedOnServerEvent>(onLoadCurrencyFeedOnDevice);
+    on<LoadCurrencyFeedOnServerEvent>(saveFeedOnServer);
+    on<LoadCurrencyFeedEvent>(onLoadCurrencyFeedOnDevice);
+    on<LoadFeedFromServerEvent>(onLoadFeedfromServer);
 
   }
 
@@ -119,7 +121,7 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
     final workIdBox = await Hive.openBox(HiveBoxes.workIdBox);
 
     final response = await dio.get(
-      "feeds/file",
+      "http://192.168.24.248:8080/feeds/file",
       queryParameters: {
         'workId': workIdBox.get(HiveKeys.workId),
       },
@@ -135,16 +137,56 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       fileName: 'saved_feed.xml',
       bytes: content,
     );
+    emit(FeedLoaderState(errors: null, workId: null));
   }
 
-  Future<void> _saveFeedOnServer(event, emit) async {
-    emit(LoadFeedSuccessState());
+  Future<void> saveFeedOnServer(event, emit) async {
+    emit(FeedLoadingState());
 
 
     await Future.delayed(Duration(seconds: 4));
 
     emit(FeedLoaderState(errors: null));
 
+  }
 
+  Future<void> onLoadFeedfromServer(event, emit) async {
+
+    emit(FeedLoadingState());
+
+    final loadFeedresponse = await repository.loadFeedFromUrl(url: event.url);
+
+    final workIdBox = await Hive.openBox(HiveBoxes.workIdBox);
+    workIdBox.put(HiveKeys.workId, loadFeedresponse.workId);
+
+    await Future.delayed(
+      const Duration(seconds: 5),
+    );
+
+    bool isReady = false;
+
+    while (!isReady) {
+      final getFeedResponse =
+          await repository.getErrors(loadFeedresponse.workId!);
+
+      isReady = getFeedResponse.isReady ?? false;
+
+      if (isReady) {
+        emit(
+          FeedLoaderState(
+            errors: getFeedResponse,
+            workId: loadFeedresponse.workId,
+          ),
+        );
+
+        return;
+      }
+
+      await Future.delayed(
+        const Duration(
+          seconds: 2,
+        ),
+      );
+    }
   }
 }

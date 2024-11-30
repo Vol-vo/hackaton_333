@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dart';
 import 'package:hackaton_333/core/features/widgets/default_app_bar.dart';
 import 'package:hackaton_333/core/features/widgets/default_push_button.dart';
 import 'package:hackaton_333/core/resources/hive_boxes.dart';
@@ -109,7 +111,12 @@ class _ServerInputScreenState extends State<ServerInputScreen> {
                   final feedUrlBox = await Hive.openBox(HiveBoxes.feedUrlBox);
                   feedUrlBox.put(HiveKeys.feedUrl, null);
                 }
+                final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                feedLoaderBloc.add(
+                  LoadFeedFromServerEvent(url: _controller.text),
+                );
               },
+
               buttonText: 'Загрузить фид с сервера',
             ),
           ],

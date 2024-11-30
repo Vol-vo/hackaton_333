@@ -49,41 +49,37 @@ class _SavedFeedsScreenState extends State<SavedFeedsScreen> {
               ),
             );
           } else {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
-                          child: GestureDetector(
-                            onTap: (){
-                              context.router.push(HistoryChangeFeedRoute(errors: snapshot.data![index].errors.currentValidatorErrors!,choises: snapshot.data![index].isAccepted));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: UIColors.accent
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(child: Column(
-                                children: [
-                                  const SizedBox(height: 3,),
-                                  Text(snapshot.data![index].nameFiles, style: const TextStyle(color: UIColors.accent),),
-                                  Text(snapshot.data![index].date.toString(), style: const TextStyle(color: UIColors.accent),),
-                                  const SizedBox(height: 3,),
-                                ],
-                              )),
-                            ),
+            return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  if (snapshot.data == null) {
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
+                    child: GestureDetector(
+                      onTap: (){
+                        context.router.push(HistoryChangeFeedRoute(errors: snapshot.data![index].errors.currentValidatorErrors!,choises: snapshot.data![index].isAccepted));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: UIColors.accent
                           ),
-                        );
-                      }
-                  ),
-                ),
-
-              ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(child: Column(
+                          children: [
+                            const SizedBox(height: 3,),
+                            Text(snapshot.data![index].nameFiles, style: const TextStyle(color: UIColors.accent),),
+                            Text(snapshot.data![index].date.toString(), style: const TextStyle(color: UIColors.accent),),
+                            const SizedBox(height: 3,),
+                          ],
+                        )),
+                      ),
+                    ),
+                  );
+                }
             );
           }
 

@@ -48,16 +48,20 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                       feedLoaderBloc.add(
                         LoadCurrencyFeedEvent(),
                       );
+                      setState(() {
+                        choises = null;
+                        openedErrors = null;
+                      });
                     },
                     buttonText: 'Сохранить исправный фид на устройстве',
                   ),
                   DefaultPushButton(
                     onTap: () {
-                      final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                       final feedLoaderBloc = context.read<FeedLoaderBloc>();
 
-                      feedLoaderBloc.add(
-                        LoadCurrencyFeedOnServerEvent(),
-                      );
+                       feedLoaderBloc.add(
+                         LoadCurrencyFeedOnServerEvent(),
+                       );
                     },
                     buttonText: 'Загрузить исправный фид на сервер',
                   ),

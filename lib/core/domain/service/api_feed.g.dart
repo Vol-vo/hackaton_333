@@ -14,7 +14,7 @@ class _ApiFeed implements ApiFeed {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://172.20.10.2:8080/';
+    baseUrl ??= 'http://192.168.24.248:8080/';
   }
 
   final Dio _dio;
@@ -66,13 +66,9 @@ class _ApiFeed implements ApiFeed {
   @override
   Future<LoadFeedResponse> loadFeedFromUrl(String url) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'url': url};
     final _headers = <String, dynamic>{};
-    final _data = FormData();
-    _data.fields.add(MapEntry(
-      'url',
-      url,
-    ));
+    const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<LoadFeedResponse>(Options(
       method: 'POST',
       headers: _headers,
