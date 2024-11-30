@@ -26,5 +26,7 @@ class LoadCurrencyFeedEvent  extends FeedLoaderEvent{
 
 }
 
+class LoadCurrencyFeedOnServerEvent extends FeedLoaderEvent {}
+
 
 

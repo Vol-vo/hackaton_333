@@ -7,7 +7,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_feed.g.dart';
 
-@RestApi(baseUrl: 'http://172.20.10.2:8080/')
+@RestApi(baseUrl: 'http://192.168.24.227:8080/')
 abstract class ApiFeed {
   factory ApiFeed(Dio dio, {String baseUrl}) = _ApiFeed;
 

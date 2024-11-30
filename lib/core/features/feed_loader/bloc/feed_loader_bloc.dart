@@ -5,16 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:hackaton_333/core/data/data.dart';
-import 'package:hackaton_333/core/data/dio.dart';
 import 'package:hackaton_333/core/data/error_ids_to_fix.dart';
 import 'package:hackaton_333/core/domain/service/feed_repository.dart';
 
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_state.dart';
 import 'package:hackaton_333/core/resources/hive_boxes.dart';
+import 'package:hackaton_333/wrapper.dart';
 import 'package:hive/hive.dart';
-import 'package:hackaton_333/core/resources/hive_boxes.dart';
 import 'package:hackaton_333/core/resources/hive_keys.dart';
-import 'package:hive/hive.dart';
 
 part 'feed_loader_event.dart';
 
@@ -25,7 +23,8 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
     on<PickFileAndSendFeedEvent>(onPickFileAndSendFeedEvent);
     on<PushChangesFeedEvent>(onPushChangesFeedEvent);
     on<LoadUserAnswerEvent>(onLoadUserAnswerEvent);
-    on<LoadCurrencyFeedEvent>(onLoadCurrencyFeedOnDevice);
+    on<LoadCurrencyFeedOnServerEvent>(onLoadCurrencyFeedOnDevice);
+
   }
 
   void onPickFileAndSendFeedEvent(event, emit) async {
@@ -136,5 +135,16 @@ class FeedLoaderBloc extends Bloc<FeedLoaderEvent, FeedLoaderState> {
       fileName: 'saved_feed.xml',
       bytes: content,
     );
+  }
+
+  Future<void> _saveFeedOnServer(event, emit) async {
+    emit(LoadFeedSuccessState());
+
+
+    await Future.delayed(Duration(seconds: 4));
+
+    emit(FeedLoaderState(errors: null));
+
+
   }
 }

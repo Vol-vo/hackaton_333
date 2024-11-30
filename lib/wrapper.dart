@@ -6,9 +6,10 @@ import 'package:hackaton_333/core/domain/service/api_feed.dart';
 import 'package:hackaton_333/core/domain/service/feed_repository.dart';
 import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dart';
 
-final _dio = Dio(
+final dio = Dio(
   BaseOptions(
     connectTimeout: const Duration(minutes: 20),
+    sendTimeout: const Duration(minutes: 20),
     // contentType: "application/json"
   ),
 );
@@ -24,7 +25,7 @@ class Wrapper extends StatelessWidget {
           create: (context) => FeedLoaderBloc(
             repository: FeedRepository(
               ApiFeed(
-                _dio,
+                dio,
               ),
             ),
           ),

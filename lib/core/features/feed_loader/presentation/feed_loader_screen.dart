@@ -52,7 +52,13 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                     buttonText: 'Сохранить исправный фид на устройстве',
                   ),
                   DefaultPushButton(
-                    onTap: () {},
+                    onTap: () {
+                      final feedLoaderBloc = context.read<FeedLoaderBloc>();
+
+                      feedLoaderBloc.add(
+                        LoadCurrencyFeedOnServerEvent(),
+                      );
+                    },
                     buttonText: 'Загрузить исправный фид на сервер',
                   ),
                 ],
@@ -135,14 +141,13 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
                   }
 
                   final feedLoaderBloc = context.read<FeedLoaderBloc>();
+                  feedLoaderBloc.add(PushChangesFeedEvent(
+                      choises: choises!, errors: state.errors!));
                   feedLoaderBloc.add(
-                    PushChangesFeedEvent(choises: choises!, errors: state.errors!)
-                  );
-                  feedLoaderBloc.add(
-                      LoadUserAnswerEvent(
-                        userAnswer: userAnswer,
-                        workId: state.workId!,
-                      ),
+                    LoadUserAnswerEvent(
+                      userAnswer: userAnswer,
+                      workId: state.workId!,
+                    ),
                   );
                 },
                 buttonText: 'Отправить изменения',
