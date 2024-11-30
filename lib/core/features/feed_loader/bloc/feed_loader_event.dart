@@ -11,3 +11,20 @@ class PushChangesFeedEvent extends FeedLoaderEvent {
 
   PushChangesFeedEvent({required this.errors, required this.choises});
 }
+
+class LoadUserAnswerEvent extends FeedLoaderEvent {
+  LoadUserAnswerEvent( {
+    required this.userAnswer,
+    required this.workId,
+  });
+
+  final List<String> userAnswer;
+  final String workId;
+}
+
+class LoadCurrencyFeedEvent  extends FeedLoaderEvent{
+
+}
+
+
+

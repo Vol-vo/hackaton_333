@@ -33,13 +33,46 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
       backgroundColor: UIColors.background,
       body: BlocBuilder<FeedLoaderBloc, FeedLoaderState>(
         builder: (context, state) {
-          if (state is FeedLoadingState) {
+          if (state is FeedLoadAnswerSuccessState) {
+            return Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Успешно Загружено!',
+                    style: TextStyle(color: UIColors.contentPrimary),
+                  ),
+                  DefaultPushButton(
+                    onTap: () {
+                      final feedLoaderBloc = context.read<FeedLoaderBloc>();
+
+                      feedLoaderBloc.add(
+                        LoadCurrencyFeedEvent(),
+                      );
+                    },
+                    buttonText: 'Сохранить исправный фид на устройстве',
+                  ),
+                  DefaultPushButton(
+                    onTap: () {},
+                    buttonText: 'Загрузить исправный фид на сервер',
+                  ),
+                ],
+              ),
+            );
+          } else if (state is FeedLoadingState) {
             return const Center(
               child: CircularProgressIndicator(
                 color: UIColors.accent,
               ),
             );
+          } else if (state is LoadFeedSuccessState) {
+            return Center(
+              child: Text(
+                'Фид упешно загружен!',
+                style: TextStyle(color: UIColors.contentPrimary),
+              ),
+            );
           }
+
           if (state.errors == null) {
             return Padding(
               padding: const EdgeInsets.all(16),
@@ -91,9 +124,23 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
               ),
               DefaultPushButton(
                 onTap: () {
+                  final userAnswer = <String>[];
+
+                  for (int index = 0; index < choises!.length; index++) {
+                    if (choises![index]) {
+                      userAnswer.add(
+                        state.errors!.currentValidatorErrors![index].errorId!,
+                      );
+                    }
+                  }
+
                   final feedLoaderBloc = context.read<FeedLoaderBloc>();
                   feedLoaderBloc.add(
                     PushChangesFeedEvent(choises: choises!, errors: state.errors!),
+                    LoadUserAnswerEvent(
+                      userAnswer: userAnswer,
+                      workId: state.workId!,
+                    ),
                   );
                 },
                 buttonText: 'Отправить изменения',
@@ -182,7 +229,6 @@ class _FeedLoaderScreenState extends State<FeedLoaderScreen> {
               openedErrors![index] = !openedErrors![index];
             });
           },
-          style: UIBoxStyles.moreButton,
           child: const Text(
             'Подробнее',
             style: TextStyle(

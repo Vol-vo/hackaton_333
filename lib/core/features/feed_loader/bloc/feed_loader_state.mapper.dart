@@ -24,14 +24,19 @@ class FeedLoaderStateMapper extends ClassMapperBase<FeedLoaderState> {
   static CurrentValidatorErrors? _$errors(FeedLoaderState v) => v.errors;
   static const Field<FeedLoaderState, CurrentValidatorErrors> _f$errors =
       Field('errors', _$errors, opt: true);
+  static String? _$workId(FeedLoaderState v) => v.workId;
+  static const Field<FeedLoaderState, String> _f$workId =
+      Field('workId', _$workId, opt: true);
 
   @override
   final MappableFields<FeedLoaderState> fields = const {
     #errors: _f$errors,
+    #workId: _f$workId,
   };
 
   static FeedLoaderState _instantiate(DecodingData data) {
-    return FeedLoaderState(errors: data.dec(_f$errors));
+    return FeedLoaderState(
+        errors: data.dec(_f$errors), workId: data.dec(_f$workId));
   }
 
   @override
@@ -89,7 +94,7 @@ abstract class FeedLoaderStateCopyWith<$R, $In extends FeedLoaderState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   CurrentValidatorErrorsCopyWith<$R, CurrentValidatorErrors,
       CurrentValidatorErrors>? get errors;
-  $R call({CurrentValidatorErrors? errors});
+  $R call({CurrentValidatorErrors? errors, String? workId});
   FeedLoaderStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -107,11 +112,15 @@ class _FeedLoaderStateCopyWithImpl<$R, $Out>
           CurrentValidatorErrors>?
       get errors => $value.errors?.copyWith.$chain((v) => call(errors: v));
   @override
-  $R call({Object? errors = $none}) =>
-      $apply(FieldCopyWithData({if (errors != $none) #errors: errors}));
+  $R call({Object? errors = $none, Object? workId = $none}) =>
+      $apply(FieldCopyWithData({
+        if (errors != $none) #errors: errors,
+        if (workId != $none) #workId: workId
+      }));
   @override
-  FeedLoaderState $make(CopyWithData data) =>
-      FeedLoaderState(errors: data.get(#errors, or: $value.errors));
+  FeedLoaderState $make(CopyWithData data) => FeedLoaderState(
+      errors: data.get(#errors, or: $value.errors),
+      workId: data.get(#workId, or: $value.workId));
 
   @override
   FeedLoaderStateCopyWith<$R2, FeedLoaderState, $Out2> $chain<$R2, $Out2>(
