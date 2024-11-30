@@ -24,16 +24,9 @@ class _ApiFeed implements ApiFeed {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<LoadFeedResponse> loadFeed(
-    File file,
-    String uploader,
-    String uploaderAuth,
-  ) async {
+  Future<LoadFeedResponse> loadFeedFromDevice(File file) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'uploader': uploader,
-      r'uploaderAuth': uploaderAuth,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.add(MapEntry(
@@ -71,6 +64,76 @@ class _ApiFeed implements ApiFeed {
   }
 
   @override
+  Future<LoadFeedResponse> loadFeedFromUrl(String url) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'url',
+      url,
+    ));
+    final _options = _setStreamType<LoadFeedResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'feeds',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoadFeedResponse _value;
+    try {
+      _value = LoadFeedResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> loadCurrencyFeedOnCloud(
+    String workId,
+    String uploader,
+    String uploaderAuth,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'workId': workId,
+      r'uploader': uploader,
+      r'uploaderAuth': uploaderAuth,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'feeds/file',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
   Future<CurrentValidatorErrors> getErrors(String workId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'workId': workId};
@@ -101,6 +164,38 @@ class _ApiFeed implements ApiFeed {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> loadUserAnswer(
+    String workId,
+    ErrorIdsToFix errorIdsToFix,
+    String contentType,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'workId': workId};
+    final _headers = <String, dynamic>{r'Content-Type': contentType};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(errorIdsToFix.toJson());
+    final _options = _setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: contentType,
+    )
+        .compose(
+          _dio.options,
+          'feeds/correct',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

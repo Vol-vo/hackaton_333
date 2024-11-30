@@ -9,6 +9,7 @@ import 'package:hackaton_333/core/features/feed_loader/bloc/feed_loader_bloc.dar
 final _dio = Dio(
   BaseOptions(
     connectTimeout: const Duration(minutes: 20),
+    // contentType: "application/json"
   ),
 );
 

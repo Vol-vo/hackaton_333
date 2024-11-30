@@ -5,13 +5,19 @@ part 'feed_loader_state.mapper.dart';
 
 @MappableClass()
 class FeedLoaderState with FeedLoaderStateMappable {
-  FeedLoaderState({
+  FeedLoaderState( {
     this.errors,
+    this.workId,
   });
 
   final CurrentValidatorErrors? errors;
+  final String? workId;
 }
 
 class FeedLoadingState extends FeedLoaderState {}
 
 class FeedErrorState extends FeedLoaderState {}
+
+class FeedLoadAnswerSuccessState extends FeedLoaderState {}
+
+class LoadFeedSuccessState extends FeedLoaderState {}
