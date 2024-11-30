@@ -53,12 +53,14 @@ class HistoryChangeFeedRoute extends PageRouteInfo<HistoryChangeFeedRouteArgs> {
   HistoryChangeFeedRoute({
     Key? key,
     required List<CurrentValidatorError> errors,
+    required List<bool> choises,
     List<PageRouteInfo>? children,
   }) : super(
           HistoryChangeFeedRoute.name,
           args: HistoryChangeFeedRouteArgs(
             key: key,
             errors: errors,
+            choises: choises,
           ),
           initialChildren: children,
         );
@@ -72,6 +74,7 @@ class HistoryChangeFeedRoute extends PageRouteInfo<HistoryChangeFeedRouteArgs> {
       return HistoryChangeFeedScreen(
         key: args.key,
         errors: args.errors,
+        choises: args.choises,
       );
     },
   );
@@ -81,15 +84,18 @@ class HistoryChangeFeedRouteArgs {
   const HistoryChangeFeedRouteArgs({
     this.key,
     required this.errors,
+    required this.choises,
   });
 
   final Key? key;
 
   final List<CurrentValidatorError> errors;
 
+  final List<bool> choises;
+
   @override
   String toString() {
-    return 'HistoryChangeFeedRouteArgs{key: $key, errors: $errors}';
+    return 'HistoryChangeFeedRouteArgs{key: $key, errors: $errors, choises: $choises}';
   }
 }
 
